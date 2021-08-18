@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventCollectionTests.cs" />
+    <Compile Include="EventEnumTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelper\HashConverter.cs" />
+    <Compile Include="TestHelper\ReflectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NUnit">
