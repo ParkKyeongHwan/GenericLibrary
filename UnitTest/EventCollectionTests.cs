@@ -41,17 +41,20 @@ namespace UnitTest
         public void Clear_ShouldDeleteAllOfThem_WhenThisMethodIsCalled()
         {
             EventCollection events = new EventCollection();
-            
+
             Warn.If(events.Count > 0);
 
             events.Add(new Event("Test1", "Test1".GetHash()));
             events.Add(new Event("Test2", "Test2".GetHash()));
-            
+
             Warn.If(events.Count != 2);
 
             events.Clear();
 
             Assert.Zero(events.Count);
+
+            int eventNumber = events.GetFieldValue<int>("eventNumber");
+            Assert.AreEqual(0, eventNumber);
         }
 
         [Test]
@@ -70,6 +73,9 @@ namespace UnitTest
 
             Assert.NotZero(events.Count);
             Assert.AreEqual(events[0].Name, "Test3");
+
+            int eventNumber = events.GetFieldValue<int>("eventNumber");
+            Assert.AreEqual(1, eventNumber);
         }
 
         [Test]
@@ -125,7 +131,7 @@ namespace UnitTest
 
             // Currently, there is only one event.
             // But it is trying to copy 2 index.
-            Assert.Throws<ArgumentException>(()=> events.CopyTo(toBeCopied, 2));
+            Assert.Throws<ArgumentException>(() => events.CopyTo(toBeCopied, 2));
         }
 
         [Test]
@@ -164,7 +170,7 @@ namespace UnitTest
 
             // TimeSpan(0,0,0,0,30) = 0.05 second.
             // It actually takes about 0.3 seconds.
-            TimeSpan tenTick = new TimeSpan(0,0,0,0,50);
+            TimeSpan tenTick = new TimeSpan(0, 0, 0, 0, 50);
 
             Assert.GreaterOrEqual(tenTick, timer.Elapsed);
         }
@@ -186,6 +192,31 @@ namespace UnitTest
                 // dummy is not used.
                 var dummy = events[1];
             });
+
+            int eventNumber = events.GetFieldValue<int>("eventNumber");
+            Assert.AreEqual(1, eventNumber);
+        }
+
+        [Test]
+        public void Remove_ShouldReturnTrue_AndDeleteItemOfEventArray_WhenGivenHashAsString()
+        {
+            EventCollection events = new EventCollection();
+
+            events.Add(new Event("Test1", "Test1".GetHash()));
+            events.Add(new Event("Test2", "Test2".GetHash()));
+
+            events.Remove("Test1".GetHash());
+
+            Assert.AreEqual("Test2", events[0].Name);
+            Assert.AreEqual("Test2".GetHash(), events[0].Hash);
+            Assert.Throws<IndexOutOfRangeException>(() =>
+            {
+                // dummy is not used.
+                var dummy = events[1];
+            });
+
+            int eventNumber = events.GetFieldValue<int>("eventNumber");
+            Assert.AreEqual(1, eventNumber);
         }
     }
 }

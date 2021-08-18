@@ -73,18 +73,27 @@ namespace GenericLibrary.Structures
             if (Count > array.Length - arrayIndex + 1)
                 throw new ArgumentException("The destination array has fewer elements than the collection.");
 
+
             Array.Copy(events, array, arrayIndex);
         }
 
         public bool Remove(Event item)
         {
-            events = events.Where(r => !r.Equals(item)).ToArray();
+            events = events
+                .Where(r => !r.Equals(item))
+                .ToArray();
+
+            eventNumber--;
             return true;
         }
 
         public bool Remove(string hasHash)
         {
-            events = events.Where(r => !r.Hash.Equals(hasHash)).ToArray();
+            events = events
+                .Where(r => !r.Hash.Equals(hasHash))
+                .ToArray();
+
+            eventNumber--;
             return true;
         }
 
