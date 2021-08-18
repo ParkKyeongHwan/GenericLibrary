@@ -1,4 +1,5 @@
 ﻿using GenericLibrary.Structures;
+using GenericLibrary.Helper;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -13,8 +14,8 @@ namespace UnitTest
         public void Count_CanCountEventCollection_IfHasEvent()
         {
             EventCollection events = new EventCollection();
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
 
             Assert.NotZero(events.Count);
         }
@@ -26,8 +27,8 @@ namespace UnitTest
 
             Warn.If(events.Count > 0);
 
-            var firstEvent = new Event("Test1", "Test1".GetHash());
-            var secondEvent = new Event("Test2", "Test2".GetHash());
+            var firstEvent = new Event("Test1");
+            var secondEvent = new Event("Test2");
             events.Add(firstEvent);
             events.Add(secondEvent);
 
@@ -44,8 +45,8 @@ namespace UnitTest
 
             Warn.If(events.Count > 0);
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));;
+            events.Add(new Event("Test2"));
 
             Warn.If(events.Count != 2);
 
@@ -62,14 +63,14 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));;
+            events.Add(new Event("Test2"));
 
             Warn.If(events.Count < 0);
 
             events.Clear();
 
-            events.Add(new Event("Test3", "Test3".GetHash()));
+            events.Add(new Event("Test3"));
 
             Assert.NotZero(events.Count);
             Assert.AreEqual(events[0].Name, "Test3");
@@ -83,10 +84,10 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            var toFind = new Event("Test1", "Test1".GetHash());
+            var toFind = new Event("Test1");
 
             events.Add(toFind);
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test2"));
 
             Assert.IsTrue(events.Contains(toFind));
         }
@@ -96,10 +97,10 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
 
-            Assert.IsFalse(events.Contains(new Event("Test3", "Test3".GetHash())));
+            Assert.IsFalse(events.Contains(new Event("Test3")));
         }
 
         [Test]
@@ -107,8 +108,8 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
 
             Event[] toBeCopied = new Event[3];
 
@@ -125,7 +126,7 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
+            events.Add(new Event("Test1"));
 
             Event[] toBeCopied = new Event[3];
 
@@ -139,8 +140,8 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
 
             Event[] toBeCopied = new Event[1];
 
@@ -156,11 +157,11 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection(0);
 
-            var toFind = new Event("Test1", "Test1".GetHash());
+            var toFind = new Event("Test1");
 
             for (int index = 0; index < 1000; index++)
             {
-                events.Add(new Event("Test2", "Test2".GetHash()));
+                events.Add(new Event("Test2"));
             }
             events.Add(toFind);
 
@@ -180,10 +181,10 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
 
-            events.Remove(new Event("Test1", "Test1".GetHash()));
+            events.Remove(new Event("Test1"));
 
             Assert.AreEqual("Test2", events[0].Name);
             Assert.AreEqual("Test2".GetHash(), events[0].Hash);
@@ -202,8 +203,8 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1", "Test1".GetHash()));
-            events.Add(new Event("Test2", "Test2".GetHash()));
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
 
             events.Remove("Test1".GetHash());
 

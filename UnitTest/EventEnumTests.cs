@@ -14,8 +14,8 @@ namespace UnitTest
         {
             EventEnum eventEnum = new EventEnum(new Event[2]
             {
-                new Event("Test1", "Test1".GetHash()),
-                new Event("Test2", "Test2".GetHash())
+                new Event("Test1"),
+                new Event("Test2")
             });
 
             Assert.Throws<IndexOutOfRangeException>(() =>
@@ -30,8 +30,8 @@ namespace UnitTest
         {
             EventEnum eventEnum = new EventEnum(new Event[2]
             {
-                new Event("Test1", "Test1".GetHash()),
-                new Event("Test2", "Test2".GetHash())
+                new Event("Test1"),
+                new Event("Test2")
             });
 
             Assert.IsTrue(eventEnum.MoveNext());
@@ -42,7 +42,7 @@ namespace UnitTest
         {
             EventEnum eventEnum = new EventEnum(new Event[1]
             {
-                new Event("Test1", "Test1".GetHash())
+                new Event("Test1")
             });
 
             eventEnum.MoveNext();
@@ -59,9 +59,9 @@ namespace UnitTest
 
             EventEnum eventEnum = new EventEnum(new Event[3]
             {
-                new Event("Test1", "Test1".GetHash()),
-                new Event("Test2", "Test2".GetHash()),
-                new Event("Test3", "Test3".GetHash())
+                new Event("Test1"),
+                new Event("Test2"),
+                new Event("Test3")
             });
 
             // change position to 0.

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace UnitTest.TestHelper
+namespace GenericLibrary.Helper
 {
-    public static class HashConverter
+    public static class CryptoHelper
     {
-        internal static string GetHash(this string text)
+        public static string GetHash(this string text)
         {
             byte[] bytes = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(text));
 
