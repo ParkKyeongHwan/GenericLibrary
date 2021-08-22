@@ -4,12 +4,12 @@ using System;
 using System.Reflection;
 using UnitTest.TestHelper;
 
-namespace UnitTest
+namespace UnitTest.Structures
 {
     [TestFixture]
     public class EventEnumTests
     {
-        [Test]
+        [Test, Category(TestInfo.NEGATIVE)]
         public void Current_ShouldThrowException_WhenImmediatelyAfterConstruction()
         {
             EventEnum eventEnum = new EventEnum(new Event[2]
@@ -25,7 +25,7 @@ namespace UnitTest
             });
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void MoveNext_ShouldReturnTrue_IfCurrentPositionIsLessThanArray()
         {
             EventEnum eventEnum = new EventEnum(new Event[2]
@@ -37,7 +37,7 @@ namespace UnitTest
             Assert.IsTrue(eventEnum.MoveNext());
         }
 
-        [Test]
+        [Test, Category(TestInfo.NEGATIVE)]
         public void MoveNext_ShouldReturnFalse_IfCurrentPositionIsGreatherThanArray()
         {
             EventEnum eventEnum = new EventEnum(new Event[1]
@@ -51,7 +51,7 @@ namespace UnitTest
             Assert.IsFalse(eventEnum.MoveNext());
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void Reset_ShouldBeInitializedPosition_WhenThisMethodIsCalled()
         {
             // initialized position is -1

@@ -2,7 +2,7 @@
 
 namespace UnitTest.TestHelper
 {
-    public static class ReflectionExtensions
+    internal static class ReflectionExtensions
     {
         internal static T GetFieldValue<T>(this object obj, string name)
         {

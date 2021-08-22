@@ -35,14 +35,21 @@ namespace GenericLibrary.Structures
             }
         }
 
-        public void Add(Event item)
+        public void Add(Event @event)
         {
+            // It depends on the requirements.
+            if (Contains(@event))
+            {
+                return;
+                // or new throw ArgumentException
+            }
+
             if (eventNumber >= events.Length)
             {
                 Array.Resize(ref events, eventNumber + 1);
             }
 
-            events[eventNumber++] = item;
+            events[eventNumber++] = @event;
         }
 
         public void Clear()
@@ -54,7 +61,7 @@ namespace GenericLibrary.Structures
 
         public bool Contains(Event item)
         {
-            if (events.AsParallel().Any(s => s.Name == item.Name))
+            if (events.AsParallel().Any(s => s.Hash == item.Hash))
             {
                 return true;
             }
@@ -73,17 +80,12 @@ namespace GenericLibrary.Structures
             if (Count > array.Length - arrayIndex + 1)
                 throw new ArgumentException("The destination array has fewer elements than the collection.");
 
-
             Array.Copy(events, array, arrayIndex);
         }
 
-        public bool Remove(Event item)
+        public bool Remove(Event @event)
         {
-            events = events
-                .Where(r => !r.Equals(item))
-                .ToArray();
-
-            eventNumber--;
+            Remove(@event.Hash);
             return true;
         }
 
@@ -99,7 +101,10 @@ namespace GenericLibrary.Structures
 
         public IEnumerator<Event> GetEnumerator()
         {
-            return GetEnumerator();
+            for (int index = 0; index < eventNumber; index++)
+            {
+                yield return events[index];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

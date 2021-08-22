@@ -5,12 +5,12 @@ using System;
 using System.Diagnostics;
 using UnitTest.TestHelper;
 
-namespace UnitTest
+namespace UnitTest.Structures
 {
     [TestFixture]
     public class EventCollectionTests
     {
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void Count_CanCountEventCollection_IfHasEvent()
         {
             EventCollection events = new EventCollection();
@@ -20,8 +20,8 @@ namespace UnitTest
             Assert.NotZero(events.Count);
         }
 
-        [Test]
-        public void Add_ShouldBeDynamicallyAllocated_IfEventAreNotEnough()
+        [Test, Category(TestInfo.POSITIVE)]
+        public void Add_ShouldBeAllocatedDynamically_IfEventAreNotEnough()
         {
             EventCollection events = new EventCollection();
 
@@ -38,18 +38,19 @@ namespace UnitTest
             Assert.NotZero(events.Count);
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void Clear_ShouldDeleteAllOfThem_WhenThisMethodIsCalled()
         {
             EventCollection events = new EventCollection();
 
             Warn.If(events.Count > 0);
 
-            events.Add(new Event("Test1"));;
+            events.Add(new Event("Test1"));
             events.Add(new Event("Test2"));
 
             Warn.If(events.Count != 2);
 
+            // Act
             events.Clear();
 
             Assert.Zero(events.Count);
@@ -58,18 +59,19 @@ namespace UnitTest
             Assert.AreEqual(0, eventNumber);
         }
 
-        [Test]
-        public void Add_ShouldBePossibleToAdd_WhenAfterClear()
+        [Test, Category(TestInfo.POSITIVE)]
+        public void Add_ShouldBeAdded_WhenAfterClear()
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1"));;
+            events.Add(new Event("Test1"));
             events.Add(new Event("Test2"));
 
             Warn.If(events.Count < 0);
 
             events.Clear();
 
+            // Act
             events.Add(new Event("Test3"));
 
             Assert.NotZero(events.Count);
@@ -79,7 +81,21 @@ namespace UnitTest
             Assert.AreEqual(1, eventNumber);
         }
 
-        [Test]
+        [Test, Category(TestInfo.NEGATIVE)]
+        public void Add_ShouldNotBeAdded_IfAddedInDuplicate()
+        {
+            EventCollection events = new EventCollection();
+
+            events.Add(new Event("Test"));
+            events.Add(new Event("Test"));
+
+            Assert.AreEqual(1, events.Count);
+
+            int eventNumber = events.GetFieldValue<int>("eventNumber");
+            Assert.AreEqual(1, eventNumber);
+        }
+
+        [Test, Category(TestInfo.POSITIVE)]
         public void Contains_ShouldReturnTrue_IfHasEventOfArgument()
         {
             EventCollection events = new EventCollection();
@@ -92,7 +108,7 @@ namespace UnitTest
             Assert.IsTrue(events.Contains(toFind));
         }
 
-        [Test]
+        [Test, Category(TestInfo.NEGATIVE)]
         public void Contains_ShouldReturnFalse_WhenThereIsNoEventToFind()
         {
             EventCollection events = new EventCollection();
@@ -103,7 +119,7 @@ namespace UnitTest
             Assert.IsFalse(events.Contains(new Event("Test3")));
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void CopyTo_ShouldCopyArray_FromZeroToIndex_WhenIndexIsGiven()
         {
             EventCollection events = new EventCollection();
@@ -117,11 +133,10 @@ namespace UnitTest
 
             Assert.AreEqual(events[0], toBeCopied[0]);
             Assert.AreEqual(events[1], toBeCopied[1]);
-            Assert.IsNull(toBeCopied[2].Name);
-            Assert.IsNull(toBeCopied[2].Hash);
+            Assert.IsNull(toBeCopied[2]);
         }
 
-        [Test]
+        [Test, Category(TestInfo.NEGATIVE)]
         public void CopyTo_ShouldThrowArgumentException_IfIndexExceedsArraysOfEvents()
         {
             EventCollection events = new EventCollection();
@@ -135,7 +150,7 @@ namespace UnitTest
             Assert.Throws<ArgumentException>(() => events.CopyTo(toBeCopied, 2));
         }
 
-        [Test]
+        [Test, Category(TestInfo.NEGATIVE)]
         public void CopyTo_ShouldThrowArgumentException_IfToBeCopiedIsSmaller_ThenEventArray()
         {
             EventCollection events = new EventCollection();
@@ -152,7 +167,7 @@ namespace UnitTest
                 , ex.Message);
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void Contains_ShouldReturnResult_In500mSec_WhenCollectionHasThousand()
         {
             EventCollection events = new EventCollection(0);
@@ -176,7 +191,7 @@ namespace UnitTest
             Assert.GreaterOrEqual(tenTick, timer.Elapsed);
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void Remove_ShouldReturnTrue_AndDeleteItemOfEventArray_WhenGivenEvent()
         {
             EventCollection events = new EventCollection();
@@ -198,7 +213,7 @@ namespace UnitTest
             Assert.AreEqual(1, eventNumber);
         }
 
-        [Test]
+        [Test, Category(TestInfo.POSITIVE)]
         public void Remove_ShouldReturnTrue_AndDeleteItemOfEventArray_WhenGivenHashAsString()
         {
             EventCollection events = new EventCollection();
@@ -218,6 +233,25 @@ namespace UnitTest
 
             int eventNumber = events.GetFieldValue<int>("eventNumber");
             Assert.AreEqual(1, eventNumber);
+        }
+
+        [Test, Category(TestInfo.POSITIVE)]
+        public void GetEnumeratorEvent_ShouldBeReadAsIterator_WhenThisIsCalledInLoop()
+        {
+            EventCollection events = new EventCollection();
+
+            events.Add(new Event("Test1"));
+            events.Add(new Event("Test2"));
+
+            EventCollection toBeCopied = new EventCollection();
+
+            // Act : Called GetEnumerator
+            foreach (var item in events)
+            {
+                toBeCopied.Add(item);
+            }
+
+            CollectionAssert.AreEqual(events, toBeCopied);
         }
     }
 }
