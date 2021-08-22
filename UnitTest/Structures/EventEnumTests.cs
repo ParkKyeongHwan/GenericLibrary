@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using UnitTest.TestHelper;
 
-namespace UnitTest
+namespace UnitTest.Structures
 {
     [TestFixture]
     public class EventEnumTests

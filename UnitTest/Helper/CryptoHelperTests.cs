@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace UnitTest
+namespace UnitTest.Helper
 {
     [TestFixture]
     public class CryptoHelperTests

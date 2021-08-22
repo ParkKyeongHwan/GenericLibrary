@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using UnitTest.TestHelper;
 
-namespace UnitTest
+namespace UnitTest.Structures
 {
     [TestFixture]
     public class EventCollectionTests
@@ -50,6 +50,7 @@ namespace UnitTest
 
             Warn.If(events.Count != 2);
 
+            // Act
             events.Clear();
 
             Assert.Zero(events.Count);
@@ -63,17 +64,32 @@ namespace UnitTest
         {
             EventCollection events = new EventCollection();
 
-            events.Add(new Event("Test1"));;
+            events.Add(new Event("Test1"));
             events.Add(new Event("Test2"));
 
             Warn.If(events.Count < 0);
 
             events.Clear();
 
+            // Act
             events.Add(new Event("Test3"));
 
             Assert.NotZero(events.Count);
             Assert.AreEqual(events[0].Name, "Test3");
+
+            int eventNumber = events.GetFieldValue<int>("eventNumber");
+            Assert.AreEqual(1, eventNumber);
+        }
+
+        [Test]
+        public void Add_ShouldNotBeAdded_IfAddedInDuplicate()
+        {
+            EventCollection events = new EventCollection();
+
+            events.Add(new Event("Test"));
+            events.Add(new Event("Test"));
+
+            Assert.AreEqual(1, events.Count);
 
             int eventNumber = events.GetFieldValue<int>("eventNumber");
             Assert.AreEqual(1, eventNumber);
