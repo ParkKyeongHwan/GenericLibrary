@@ -44,8 +44,6 @@ namespace UnitTest.Extensions
             events.Add(new Event("Test2"));
             events.Add(new Event("Test3"));
 
-            IReadOnlyCollection<Event> readOnlyEvents = events;
-
             events.Swap(0, 2);
 
             Assert.AreEqual("Test3", events[0].Name);
