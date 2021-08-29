@@ -43,7 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\EventCollectionExtensionTests.cs" />
+    <Compile Include="Extensions\LinqExtensionTests.cs" />
     <Compile Include="Helper\CryptoHelperTests.cs" />
+    <Compile Include="StringParserTests.cs" />
     <Compile Include="Structures\EventCollectionTests.cs" />
     <Compile Include="Structures\EventEnumTests.cs" />
     <Compile Include="Structures\EventTests.cs" />
